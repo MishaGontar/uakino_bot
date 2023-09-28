@@ -34,6 +34,8 @@ To use the UaKinoBot, you can follow these steps:
 4. Instantiate the `UaKinoBot` class with the list of URLs.
 5. Use the `UaKinoBot` methods to start the program, download videos, and measure execution time.
 
+**Note**: This project requires **Java 8** to run stably.
+
 Example usage can be found in the `Main` class within the repository.
 
 ## Contributing
