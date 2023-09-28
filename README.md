@@ -1,6 +1,6 @@
 # UaKinoBot
 
-UaKinoBot is a Java-based automation tool for downloading movies and series from the UaKino website. It provides a set of classes and utilities to automate the process.
+UaKinoBot is a Java-based automation tool for downloading movies and series from the UaKino website(https://uakino.club/). It provides a set of classes and utilities to automate the process.
 
 ## Classes
 
