@@ -41,7 +41,3 @@ Example usage can be found in the `Main` class within the repository.
 ## Contributing
 
 Contributions to this project are welcome. Feel free to open issues or submit pull requests if you have suggestions, improvements, or bug fixes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
