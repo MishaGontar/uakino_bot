@@ -17,7 +17,7 @@ public class Main {
         UaKinoBot bot = new UaKinoBot(urls);
 
         // Start the program, download videos, and measure execution time
-        bot.startProgramWithDownloadAndTimer("C:\\Users\\Мішаня\\Desktop");
+        bot.startProgramWithDownloadAndTimer("your directory");
     }
 }
 
