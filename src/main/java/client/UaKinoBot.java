@@ -1,21 +1,14 @@
 package client;
 
-import io.github.kanglong1023.m3u8.M3u8Downloads;
-import io.github.kanglong1023.m3u8.http.config.HttpRequestManagerConfig;
 import lombok.Getter;
-import org.apache.commons.lang3.time.StopWatch;
+import modal.Movie;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.kanglong1023.m3u8.M3u8Downloads.download;
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-import static utils.FolderSizeCalculator.printFolderSize;
 
 /**
  * UaKinoBot is a bot for automating movie or series downloading from UaKino website(https://uakino.club/).
@@ -29,38 +22,10 @@ import static utils.FolderSizeCalculator.printFolderSize;
  * ```
  */
 @Getter
-public class UaKinoBot extends SeleniumClient {
-    private final List<String> filmList;
-    private final List<Movie> resultMovieList = new ArrayList<>();
+public class UaKinoBot extends MovieClient {
 
-    /**
-     * Constructs a UaKinoBot instance with a list of film URLs.
-     *
-     * @param filmList A list of film URLs to process.
-     */
     public UaKinoBot(List<String> filmList) {
-        driver.manage().window().maximize();
-        this.filmList = filmList;
-    }
-
-    /**
-     * Starts the program, processes the film URLs, and downloads videos to the specified directory.
-     *
-     * @param dir The directory where videos will be downloaded.
-     */
-    public void startProgramWithDownloadAndTimer(String dir) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
-
-        startProgram();
-        downLoadVideoToDir(dir);
-
-        stopWatch.stop();
-
-        long totalTimeInSeconds = stopWatch.getTime() / 1000;
-        System.out.println("Time of work: " + totalTimeInSeconds + " seconsd.");
-        System.out.println("Count of urls: " + getTotalUrlsCount());
-        printFolderSize(new File(dir));
+        super(filmList);
     }
 
     /**
@@ -96,51 +61,6 @@ public class UaKinoBot extends SeleniumClient {
         driver.close();
     }
 
-    /**
-     * Downloads videos to the specified directory for all movies in the resultMovieList.
-     *
-     * @param dir The directory where videos will be downloaded.
-     */
-    public void downLoadVideoToDir(String dir) {
-        if (resultMovieList == null || resultMovieList.isEmpty()) {
-            System.out.println("Can't download. Check resultMovieList! " + resultMovieList);
-            return;
-        }
-
-        HttpRequestManagerConfig managerConfig = HttpRequestManagerConfig.custom()
-                .maxConnPerRoute(10)
-                .overrideSystemProxy()
-                .build();
-
-        resultMovieList.forEach(movie -> {
-            String directory = dir + "/" + movie.getName();
-            String name;
-            new File(directory).mkdirs();
-
-            for (int count = 0; count < movie.getUrls().size(); count++) {
-                try {
-                    name = movie.getUrls().size() > 1 ? (count + 1 + "_" + movie.getName()) : movie.getName();
-                    name += ".mp4";
-                    download(managerConfig, M3u8Downloads.newDownload(movie.getUrls().get(count), name, directory));
-                } catch (IllegalAccessError e) {
-                    System.out.println("Check java version. Need to be java 8. " + e);
-                } catch (Exception e) {
-                    System.out.println("Can't download " + directory);
-                    System.out.println(e);
-                }
-            }
-        });
-    }
-
-    /**
-     * Navigates to the specified film URL and waits for the page to load.
-     *
-     * @param url The URL of the film to navigate to.
-     */
-    private void goToFilm(String url) {
-        driver.get(url);
-        waitForLoad();
-    }
 
     /**
      * Retrieves the video link for the current movie.
@@ -156,20 +76,6 @@ public class UaKinoBot extends SeleniumClient {
 
         driver.switchTo().defaultContent();
         return format(downloadFormat, movieId);
-    }
-
-    /**
-     * Retrieves the total count of video URLs across all movies in resultMovieList.
-     *
-     * @return The total count of video URLs.
-     */
-    private int getTotalUrlsCount() {
-        int totalUrlsCount = 0;
-
-        for (Movie movie : resultMovieList) {
-            totalUrlsCount += movie.getUrls().size();
-        }
-        return totalUrlsCount;
     }
 
     /**

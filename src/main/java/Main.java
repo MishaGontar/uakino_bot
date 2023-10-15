@@ -17,7 +17,7 @@ public class Main {
         UaKinoBot bot = new UaKinoBot(urls);
 
         // Start the program, download videos, and measure execution time
-        bot.startProgramWithDownloadAndTimer("your directory");
+        bot.startProgramWithDownloadAndTimer("your directory(need to be full path)");
     }
 }
 

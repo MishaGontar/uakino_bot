@@ -1,4 +1,4 @@
-package client;
+package modal;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -60,7 +60,7 @@ public class Movie {
      * @param name The name of the movie to be set.
      */
     public void setName(String name) {
-        this.name = name.trim().replaceAll("[:/«»’.']", "");
+        this.name = name.trim().replaceAll("[:/«»’.?*<>|\"']", "");
     }
 
     /**
