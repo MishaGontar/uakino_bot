@@ -60,7 +60,7 @@ public class Movie {
      * @param name The name of the movie to be set.
      */
     public void setName(String name) {
-        this.name = name.trim().replace("/", "");
+        this.name = name.trim().replaceAll("[:/«»’.']", "");
     }
 
     /**

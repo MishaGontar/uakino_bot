@@ -13,6 +13,7 @@ import java.util.List;
 
 import static io.github.kanglong1023.m3u8.M3u8Downloads.download;
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static utils.FolderSizeCalculator.printFolderSize;
 
@@ -82,6 +83,7 @@ public class UaKinoBot extends SeleniumClient {
             series.forEach(s -> {
                 clickJs(s);
                 waitForLoad();
+
                 movie.getUrls().add(getVideoLink());
             });
             if (series.isEmpty()) {
@@ -151,10 +153,9 @@ public class UaKinoBot extends SeleniumClient {
 
         String src = driver.findElement(By.xpath(XPATH_VIDEO_LINK)).getAttribute("src");
         String movieId = getIdMovie(src);
-        String urlFormat = src.contains(FILMS) ? filmFormat : serialsFormat;
 
         driver.switchTo().defaultContent();
-        return format(urlFormat, movieId);
+        return format(downloadFormat, movieId);
     }
 
     /**
@@ -178,7 +179,7 @@ public class UaKinoBot extends SeleniumClient {
      * @return The movie ID extracted from the URL.
      */
     private String getIdMovie(String url) {
-        String http = url.contains(FILMS) ? "https://s1.ashdi.vip/video20/films/" : "https://s1.ashdi.vip/video20/serials/";
+        String http = "https://s1.ashdi.vip/video20/";
         return url.replace("/hls/index.m3u8", "").replace(http, "");
     }
 
@@ -192,9 +193,7 @@ public class UaKinoBot extends SeleniumClient {
     }
 
     // Constants for URL formats and XPaths
-    private static final String FILMS = "films";
-    private static final String serialsFormat = "https://s1.ashdi.vip/content/stream/serials/%s/hls/1080/index.m3u8";
-    private static final String filmFormat = "https://s1.ashdi.vip/content/stream/films/%s/hls/1080/index.m3u8";
+    private static final String downloadFormat = "https://s1.ashdi.vip/content/stream/%s/hls/1080/index.m3u8";
 
     private static final String XPATH_VIDEO_LINK = "//video";
     private static final String XPATH_VIDEO_IFRAME = "//iframe[contains(@src,'ashdi.vip/vod')]";

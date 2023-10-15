@@ -11,13 +11,13 @@ public class Main {
     public static void main(String[] args) {
         // Create a list of film URLs to process
         List<String> urls = new ArrayList<>();
-        urls.add("https://uakino.club/filmy/genre-action/17733-gra-z-diyavolom.html");
+        urls.add("https://uakino.club/seriesss/drama_series/5727-zagostren-kozirki-2-sezon.html");
 
         // Create a UaKinoBot instance with the list of film URLs
         UaKinoBot bot = new UaKinoBot(urls);
 
         // Start the program, download videos, and measure execution time
-        bot.startProgramWithDownloadAndTimer("your directory");
+        bot.startProgramWithDownloadAndTimer("C:\\Users\\Мішаня\\Desktop");
     }
 }
 
