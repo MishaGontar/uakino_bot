@@ -24,7 +24,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElemen
 @Getter
 public class UaKinoBot extends MovieClient {
 
-    public UaKinoBot(List<String> filmList) {
+    public UaKinoBot(List<Movie> filmList) {
         super(filmList);
     }
 
@@ -37,12 +37,12 @@ public class UaKinoBot extends MovieClient {
             System.out.println("List of movies are empty!");
             return;
         }
-        for (String filmUrl : filmList) {
-            goToFilm(filmUrl);
-            String getName = getVideoName();
+        for (Movie filmUrl : filmList) {
+            goToFilm(filmUrl.getMainUrl());
+            String getName = filmUrl.getName().isEmpty() ? getVideoName() : filmUrl.getName();
             getWebDriverWait().until(presenceOfElementLocated(By.xpath(XPATH_VIDEO_IFRAME)));
 
-            Movie movie = new Movie(getName, filmUrl);
+            Movie movie = new Movie(getName, filmUrl.getMainUrl());
             scrollIntoView(driver.findElement(By.xpath(XPATH_VIDEO_IFRAME)));
             List<WebElement> series = driver.findElements(By.xpath(XPATH_VIDEO_LIST));
             series.forEach(s -> {

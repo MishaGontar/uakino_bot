@@ -54,6 +54,11 @@ public class Movie {
         this.mainUrl = mainUrl;
     }
 
+    public Movie(String mainUrl) {
+        this.name = "";
+        this.mainUrl = mainUrl;
+    }
+
     /**
      * Sets the name of the movie after processing. Removes leading/trailing spaces and slashes.
      *

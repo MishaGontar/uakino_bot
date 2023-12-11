@@ -13,10 +13,9 @@ import static utils.FolderSizeCalculator.printFolderSize;
 public class MovieClient extends SeleniumClient {
     private final MovieService service = new MovieService();
     protected final List<Movie> resultMovieList = new ArrayList<>();
-    protected final List<String> filmList;
+    protected final List<Movie> filmList;
 
-
-    public MovieClient(List<String> filmList) {
+    public MovieClient(List<Movie> filmList){
         driver.manage().window().maximize();
         this.filmList = filmList;
     }

@@ -34,7 +34,7 @@ public class MovieService {
 
             for (int count = 0; count < movie.getUrls().size(); count++) {
                 try {
-                    name = movie.getUrls().size() > 1 ? (count + 1 + "_" + movie.getName()) : movie.getName();
+                    name = movie.getUrls().size() > 1 ? (count + 1 + " серія") : movie.getName();
                     name += ".mp4";
                     download(managerConfig, M3u8Downloads.newDownload(movie.getUrls().get(count), name, directory));
                 } catch (IllegalAccessError e) {
