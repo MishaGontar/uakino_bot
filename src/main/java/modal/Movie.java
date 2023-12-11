@@ -1,4 +1,4 @@
-package client;
+package modal;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -54,13 +54,18 @@ public class Movie {
         this.mainUrl = mainUrl;
     }
 
+    public Movie(String mainUrl) {
+        this.name = "";
+        this.mainUrl = mainUrl;
+    }
+
     /**
      * Sets the name of the movie after processing. Removes leading/trailing spaces and slashes.
      *
      * @param name The name of the movie to be set.
      */
     public void setName(String name) {
-        this.name = name.trim().replace("/", "");
+        this.name = name.trim().replaceAll("[:/«»’.?*<>|\"']", "");
     }
 
     /**
