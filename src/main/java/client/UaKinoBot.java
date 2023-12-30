@@ -75,7 +75,7 @@ public class UaKinoBot extends MovieClient {
         String movieId = getIdMovie(src);
 
         driver.switchTo().defaultContent();
-        return format(downloadFormat, movieId);
+        return movieId.contains(downloadHead) ? movieId + "/hls/index.m3u8" : format(downloadFormat, movieId);
     }
 
     /**
@@ -100,6 +100,7 @@ public class UaKinoBot extends MovieClient {
 
     // Constants for URL formats and XPaths
     private static final String downloadFormat = "https://s1.ashdi.vip/content/stream/%s/hls/1080/index.m3u8";
+    private static final String downloadHead = "https://s";
 
     private static final String XPATH_VIDEO_LINK = "//video";
     private static final String XPATH_VIDEO_IFRAME = "//iframe[contains(@src,'ashdi.vip/vod')]";
