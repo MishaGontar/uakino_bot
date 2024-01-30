@@ -15,7 +15,7 @@ public class MovieClient extends SeleniumClient {
     protected final List<Movie> resultMovieList = new ArrayList<>();
     protected final List<Movie> filmList;
 
-    public MovieClient(List<Movie> filmList){
+    public MovieClient(List<Movie> filmList) {
         driver.manage().window().maximize();
         this.filmList = filmList;
     }
@@ -68,7 +68,7 @@ public class MovieClient extends SeleniumClient {
      * @param url The URL of the film to navigate to.
      */
     protected void goToFilm(String url) {
-        driver.get(url);
+        driver.navigate().to(url);
         waitForLoad();
     }
 }
