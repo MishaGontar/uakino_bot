@@ -6,8 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
-import static java.lang.String.format;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 
 /**
@@ -49,7 +49,12 @@ public class UaKinoBot extends MovieClient {
                 clickJs(s);
                 waitForLoad();
 
-                movie.getUrls().add(getVideoLink());
+                try {
+                    movie.getUrls().add(getVideoLink());
+                } catch (NoSuchElementException e) {
+                    System.out.println("Exception while get getVideoLink() for " + filmUrl);
+                    System.out.println(e.getMessage());
+                }
             });
             if (series.isEmpty()) {
                 System.out.println("This is a film.");
@@ -72,21 +77,8 @@ public class UaKinoBot extends MovieClient {
         getWebDriverWait().until(presenceOfElementLocated(By.xpath(XPATH_VIDEO_LINK)));
 
         String src = driver.findElement(By.xpath(XPATH_VIDEO_LINK)).getAttribute("src");
-        String movieId = getIdMovie(src);
-
         driver.switchTo().defaultContent();
-        return movieId.contains(downloadHead) ? movieId + "/hls/index.m3u8" : format(downloadFormat, movieId);
-    }
-
-    /**
-     * Retrieves the movie ID from a video URL.
-     *
-     * @param url The video URL.
-     * @return The movie ID extracted from the URL.
-     */
-    private String getIdMovie(String url) {
-        String http = "https://s1.ashdi.vip/video20/";
-        return url.replace("/hls/index.m3u8", "").replace(http, "");
+        return src;
     }
 
     /**
@@ -97,10 +89,6 @@ public class UaKinoBot extends MovieClient {
     private String getVideoName() {
         return driver.findElement(By.xpath(XPATH_VIDEO_NAME)).getText();
     }
-
-    // Constants for URL formats and XPaths
-    private static final String downloadFormat = "https://s1.ashdi.vip/content/stream/%s/hls/1080/index.m3u8";
-    private static final String downloadHead = "https://s";
 
     private static final String XPATH_VIDEO_LINK = "//video";
     private static final String XPATH_VIDEO_IFRAME = "//iframe[contains(@src,'ashdi.vip/vod')]";
