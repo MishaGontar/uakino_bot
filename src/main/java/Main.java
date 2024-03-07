@@ -14,8 +14,8 @@ public class Main {
         // Create a list of film URLs to process
 
         List<Movie> movies = new ArrayList<>();
-//        movies.add(new Movie("1 Фантастичні звірі і де їх шукати","https://uakino.club/filmy/genre_adventure/461-fantastichn-zvr-de-yih-shukati.html"));
-//        movies.add(new Movie("2 Фантастичні звірі: Злочини Ґріндельвальда","https://uakino.club/filmy/genre_adventure/7890-fantastichn-zvr-zlochini-rndelvalda.html"));
+        movies.add(new Movie("1 Фантастичні звірі і де їх шукати","https://uakino.club/filmy/genre_adventure/461-fantastichn-zvr-de-yih-shukati.html"));
+        movies.add(new Movie("2 Фантастичні звірі: Злочини Ґріндельвальда","https://uakino.club/filmy/genre_adventure/7890-fantastichn-zvr-zlochini-rndelvalda.html"));
         movies.add(new Movie("3 Фантастичні звірі: Таємниці Дамблдора","https://uaserials.net/films/6566-fantastichni-zviri-tayemnici-dambldora.html"));
 
 
