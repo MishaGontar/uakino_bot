@@ -68,4 +68,13 @@ abstract class SeleniumClient {
         wait.until((ExpectedCondition<Boolean>) wd ->
                 ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
     }
+
+    /**
+     * Goes to a specific URL in the web browser.
+     *
+     * @param url The URL to go to.
+     */
+    void goByUrl(String url) {
+        driver.get(url);
+    }
 }

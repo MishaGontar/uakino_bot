@@ -3,8 +3,13 @@ package client;
 import lombok.Getter;
 import modal.Movie;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -38,11 +43,12 @@ public class UaKinoBot extends MovieClient {
             return;
         }
         for (Movie filmUrl : filmList) {
-            goToFilm(filmUrl.getMainUrl());
+            goToFilmAndWait(filmUrl.getMainUrl(), XPATH_VIDEO_NAME);
             String getName = filmUrl.getName().isEmpty() ? getVideoName() : filmUrl.getName();
-            getWebDriverWait().until(presenceOfElementLocated(By.xpath(XPATH_VIDEO_IFRAME)));
+            scrollToVisibleIframe();
 
             Movie movie = new Movie(getName, filmUrl.getMainUrl());
+            wait.until(presenceOfElementLocated(By.xpath(XPATH_VIDEO_IFRAME)));
             scrollIntoView(driver.findElement(By.xpath(XPATH_VIDEO_IFRAME)));
             List<WebElement> series = driver.findElements(By.xpath(XPATH_VIDEO_LIST));
             series.forEach(s -> {
@@ -81,6 +87,23 @@ public class UaKinoBot extends MovieClient {
         return src;
     }
 
+    private void scrollToVisibleIframe() {
+        Actions actions = new Actions(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(100));
+        boolean isFrameVisible = false;
+        int count = 0;
+        while (!isFrameVisible) {
+            try {
+                if (count > 10) throw new TimeoutException("Iframe not visible");
+                wait.until(presenceOfElementLocated(By.xpath(XPATH_VIDEO_IFRAME)));
+                isFrameVisible = true;
+            } catch (NoSuchElementException | TimeoutException e) {
+                actions.sendKeys(Keys.PAGE_DOWN).perform();
+                count++;
+            }
+        }
+    }
+
     /**
      * Retrieves the name of the current video.
      *
@@ -92,6 +115,6 @@ public class UaKinoBot extends MovieClient {
 
     private static final String XPATH_VIDEO_LINK = "//video";
     private static final String XPATH_VIDEO_IFRAME = "//iframe[contains(@src,'ashdi.vip/vod')]";
-    private static final String XPATH_VIDEO_NAME = "//h1//span";
+    private static final String XPATH_VIDEO_NAME = "//h1//span | //header//h1 | //h1";
     private static final String XPATH_VIDEO_LIST = "//div[contains(@class,'playlists-videos')]//li[contains(@data-id,'0_0')]";
 }

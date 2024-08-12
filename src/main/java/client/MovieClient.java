@@ -8,6 +8,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openqa.selenium.By.xpath;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static utils.FolderSizeCalculator.printFolderSize;
 
 public class MovieClient extends SeleniumClient {
@@ -67,8 +69,8 @@ public class MovieClient extends SeleniumClient {
      *
      * @param url The URL of the film to navigate to.
      */
-    protected void goToFilm(String url) {
+    protected void goToFilmAndWait(String url, String waitXpath) {
         driver.navigate().to(url);
-        waitForLoad();
+        wait.until(presenceOfElementLocated(xpath(waitXpath)));
     }
 }
